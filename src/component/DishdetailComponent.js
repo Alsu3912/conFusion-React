@@ -49,11 +49,13 @@ function DishDetail(props) {
   }
 
   return (
-    <div className="row">
-      <div className="col-12 col-md-5 m-1">
-        {renderDish(dish)}
+    <div className="container">
+      <div className="row">
+        <div className="col-12 col-md-5 m-1">
+          {renderDish(dish)}
+        </div>
+        {renderComments(dish)}
       </div>
-      {renderComments(dish)}
     </div>
   );
 }
