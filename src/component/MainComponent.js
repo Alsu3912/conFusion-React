@@ -16,19 +16,14 @@ function Main() {
   const [comments, setComments] = useState(COMMENTS);
   const [leaders, setLeaders] = useState(LEADERS);
   const [promotions, setPromotions] = useState(PROMOTIONS);
-  // const [selectedDish, setSelectedDish] = useState(null);
+  
+  const filterByDishID = (match, entryForFilter, id) => {
+    const filteredArray = entryForFilter.filter((elem) => elem[id] === parseInt(match.params.dishId, 10));
+    return filteredArray;
+  }
 
-  // const onDishSelect = (dishID) => {
-  //   setSelectedDish(dishID);
-  // }
-
-  // const filterByDishID = () => {
-  //   const filteredArrayOfDishes = dishes.filter((dish) => dish.id === selectedDish);
-  //   return filteredArrayOfDishes[0];
-  // }
-
-  const filterByFeaturedAttribute = (sortableArray) => {
-    const filteredArray = sortableArray.filter((elem) => elem.featured);
+  const filterByFeaturedAttribute = (entryForFilter) => {
+    const filteredArray = entryForFilter.filter((elem) => elem.featured);
     return filteredArray[0];
   }
 
@@ -39,17 +34,23 @@ function Main() {
     )
   }
 
+  const DishWithId = ({ match }) => {
+    return (
+      <DishDetail dish={filterByDishID(match, dishes, "id")[0]} 
+      comments={filterByDishID(match, comments, "dishId")} />
+    )
+  }
+
   return (
     <div>
       <Header />
       <Switch>
         <Route path="/home" component={HomePage}/>
         <Route exact path="/menu" component={() => <Menu dishes={dishes} />}/>
+        <Route path="/menu/:dishId" component={DishWithId} />
         <Route exact path="/contactus" component={Contact} />
         <Redirect to="/home"></Redirect>
       </Switch>
-      {/* <Menu dishes={dishes} onClick={(dishID) => onDishSelect(dishID)}/>
-      <DishDetail dish={filterByDishID(selectedDish)} /> */}
       <Footer />
     </div>
   );
