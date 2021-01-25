@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Home from './HomeComponent';
 import Menu from './MenuComponent';
 import Contact from './ContactComponent';
+import About from './AboutComponent';
 import DishDetail from './DishdetailComponent'; 
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
@@ -49,6 +50,7 @@ function Main() {
         <Route exact path="/menu" component={() => <Menu dishes={dishes} />}/>
         <Route path="/menu/:dishId" component={DishWithId} />
         <Route exact path="/contactus" component={Contact} />
+        <Route exact path="/about" component={() => <About leaders={leaders} />} />
         <Redirect to="/home"></Redirect>
       </Switch>
       <Footer />
