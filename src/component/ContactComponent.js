@@ -1,9 +1,20 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from 'react';
-import { Breadcrumb, BreadcrumbItem, Button, Form, FormGroup, Label, Input, Col } from 'reactstrap';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  Button,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  Col,
+  FormFeedback
+} from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 const Contact = () => {
-  
+
   const [firstname, setFirstname] = useState('');
   const [lastname, setLastname] = useState('');
   const [telnum, setTelnum] = useState('');
@@ -11,6 +22,7 @@ const Contact = () => {
   const [agree, setAgree] = useState(false);
   const [contactType, setContactType] = useState('Tel.');
   const [message, setMessage] = useState('');
+  const [touched, setTouched] = useState(false);
 
   const feedbackInput = {
     firstname: firstname,
@@ -31,6 +43,19 @@ const Contact = () => {
     alert("Current state is: " + JSON.stringify(feedbackInput));
     event.preventDefault();
   }
+
+  const validate = (telnum) => {
+    let errorText = '';
+    const reg = /^\d+$/;
+
+    if (touched && !reg.test(telnum)) {
+      errorText = 'Tel. Number should contain only numbers';
+    };
+
+    return errorText;
+  }
+
+  let error = validate(telnum);
 
   return (
     <div className="container">
@@ -93,7 +118,9 @@ const Contact = () => {
                 <Label htmlFor="telnum" md={2}>Contact Tel.</Label>
                 <Col md={10}>
                   <Input type="tel" id="telnum" name="telnum" placeholder="Tel. Number"
-                    value={telnum} onChange={(event) => setTelnum(event.target.value)} />
+                    value={telnum} onChange={(event) => setTelnum(event.target.value)} 
+                    invalid={error !== ''} onBlur={() => setTouched(true)} />
+                    <FormFeedback>{error}</FormFeedback>
                 </Col>
               </FormGroup>
               <FormGroup row>
