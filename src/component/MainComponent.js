@@ -6,19 +6,15 @@ import About from './AboutComponent';
 import DishDetail from './DishdetailComponent'; 
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
-import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-const mapStateToProps = state => {
-  return {
-    dishes: state.dishes,
-    comments: state.comments,
-    leaders: state.leaders,
-    promotions: state.promotions
-  }
-}
+function Main() {
 
-function Main(props) {
+  const dishes = useSelector(state => state.dishes);
+  const comments = useSelector(state => state.comments);
+  const leaders = useSelector(state => state.leaders);
+  const promotions = useSelector(state => state.promotions);
 
   const filterByDishID = (match, entryForFilter, id) => {
     const filteredArray = entryForFilter.filter((elem) => elem[id] === parseInt(match.params.dishId, 10));
@@ -32,15 +28,15 @@ function Main(props) {
 
   const HomePage = () => {
     return (
-      <Home dish={filterByFeaturedAttribute(props.dishes)} promotion={filterByFeaturedAttribute(props.promotions)} 
-      leader={filterByFeaturedAttribute(props.leaders)} />
+      <Home dish={filterByFeaturedAttribute(dishes)} promotion={filterByFeaturedAttribute(promotions)} 
+      leader={filterByFeaturedAttribute(leaders)} />
     )
   }
 
   const DishWithId = ({ match }) => {
     return (
-      <DishDetail dish={filterByDishID(match, props.dishes, "id")[0]} 
-      comments={filterByDishID(match, props.comments, "dishId")} />
+      <DishDetail dish={filterByDishID(match, dishes, "id")[0]} 
+      comments={filterByDishID(match, comments, "dishId")} />
     )
   }
 
@@ -49,10 +45,10 @@ function Main(props) {
       <Header />
       <Switch>
         <Route path="/home" component={HomePage}/>
-        <Route exact path="/menu" component={() => <Menu dishes={props.dishes} />}/>
+        <Route exact path="/menu" component={() => <Menu dishes={dishes} />}/>
         <Route path="/menu/:dishId" component={DishWithId} />
         <Route exact path="/contactus" component={Contact} />
-        <Route exact path="/about" component={() => <About leaders={props.leaders} />} />
+        <Route exact path="/about" component={() => <About leaders={leaders} />} />
         <Redirect to="/home"></Redirect>
       </Switch>
       <Footer />
@@ -60,4 +56,4 @@ function Main(props) {
   );
 }
 
-export default withRouter(connect(mapStateToProps)(Main));
+export default Main;
