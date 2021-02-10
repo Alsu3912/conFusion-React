@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Home from './HomeComponent';
 import Menu from './MenuComponent';
 import Contact from './ContactComponent';
@@ -6,18 +6,16 @@ import About from './AboutComponent';
 import DishDetail from './DishdetailComponent'; 
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
-import { DISHES } from '../shared/dishes';
-import { COMMENTS } from '../shared/comments';
-import { LEADERS } from '../shared/leaders';
-import { PROMOTIONS } from '../shared/promotions';
 import { Switch, Route, Redirect } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 function Main() {
-  const [dishes, setDishes] = useState(DISHES);
-  const [comments, setComments] = useState(COMMENTS);
-  const [leaders, setLeaders] = useState(LEADERS);
-  const [promotions, setPromotions] = useState(PROMOTIONS);
-  
+
+  const dishes = useSelector(state => state.dishes);
+  const comments = useSelector(state => state.comments);
+  const leaders = useSelector(state => state.leaders);
+  const promotions = useSelector(state => state.promotions);
+
   const filterByDishID = (match, entryForFilter, id) => {
     const filteredArray = entryForFilter.filter((elem) => elem[id] === parseInt(match.params.dishId, 10));
     return filteredArray;
