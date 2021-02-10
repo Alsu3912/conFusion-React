@@ -4,6 +4,7 @@ import {
   CardTitle, Breadcrumb, BreadcrumbItem
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import CommentForm from './CommentForm';
 
 function RenderDish({ dish }) {
   if (dish != null)
@@ -44,11 +45,14 @@ function RenderComments({ comments }) {
             <p>-- {comment.author}, {parseDate(comment.date).month} {parseDate(comment.date).day}, {parseDate(comment.date).year}</p>
           </div>
         ))}
+        <CommentForm />
       </div>
     );
   else
     return (
-      <div></div>
+      <div>
+        <CommentForm />
+      </div>
     );
 }
 
