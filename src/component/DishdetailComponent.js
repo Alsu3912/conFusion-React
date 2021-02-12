@@ -25,7 +25,7 @@ function RenderDish({ dish }) {
     );
 }
 
-function RenderComments({ comments }) {
+function RenderComments({ comments, dishId }) {
 
   const parseDate = (date) => {
     const milliseconds = Date.parse(date);
@@ -45,13 +45,13 @@ function RenderComments({ comments }) {
             <p>-- {comment.author}, {parseDate(comment.date).month} {parseDate(comment.date).day}, {parseDate(comment.date).year}</p>
           </div>
         ))}
-        <CommentForm />
+        <CommentForm dishId={dishId} />
       </div>
     );
   else
     return (
       <div>
-        <CommentForm />
+        <CommentForm dishId={dishId} />
       </div>
     );
 }
@@ -72,7 +72,7 @@ function DishDetail({ dish, comments }) {
       </div>
       <div className="row">
           <RenderDish dish={dish} />
-          <RenderComments comments={comments} />
+          <RenderComments comments={comments} dishId={dish.id}/>
       </div>
     </div>
   );
