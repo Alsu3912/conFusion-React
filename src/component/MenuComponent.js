@@ -1,10 +1,26 @@
 import React from 'react';
 import { Card, CardImg, CardImgOverlay, CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import Loading from './LoadingComponent';
 
 function Menu({ dishes }) {
-  
-  return (
+  if (dishes.isLoading) {
+    return (
+      <div className="container">
+        <div className="row">
+          <Loading />
+        </div>
+      </div>
+    )
+  } else if (dishes.errorMessage) {
+    return (
+      <div className="container">
+        <div className="row">
+          <h4>{dishes.errorMessage}</h4>
+        </div>
+      </div>
+    )
+  } else return (
     <div className="container">
       <div className="row">
         <div className="row">
@@ -17,7 +33,7 @@ function Menu({ dishes }) {
           <h3>Menu</h3>
           <hr />
         </div>
-        {dishes.map((dish) => (
+        {dishes.dishes.map((dish) => (
           <div key={dish.id} className="col-12 col-md-5 m-1">
             <Card>
               <Link to={`/menu/${dish.id}`}>

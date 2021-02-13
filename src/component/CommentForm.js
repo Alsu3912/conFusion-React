@@ -2,12 +2,16 @@
 import React, { useState } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, Label, Row, Col } from 'reactstrap';
 import { Control, LocalForm, Errors } from 'react-redux-form';
+import { useDispatch } from 'react-redux';
+import { addComment } from '../redux/ActionCreators';
 
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
 const minLength = (len) => (val) => (val) && (val.length >= len);
 
-const CommentForm = () => {
+const CommentForm = ({ dishId }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const dispatch = useDispatch();
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -15,8 +19,7 @@ const CommentForm = () => {
 
   const handleSubmit = (values) => {
     toggleModal();
-    console.log("Current state is: " + JSON.stringify(values));
-    alert("Current state is: " + JSON.stringify(values));
+    dispatch(addComment(dishId, values.rating, values.name, values.message));
   }
 
   return (

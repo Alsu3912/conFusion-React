@@ -5,6 +5,7 @@ import {
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import CommentForm from './CommentForm';
+import Loading from './LoadingComponent';
 
 function RenderDish({ dish }) {
   if (dish != null)
@@ -25,7 +26,7 @@ function RenderDish({ dish }) {
     );
 }
 
-function RenderComments({ comments }) {
+function RenderComments({ comments, dishId }) {
 
   const parseDate = (date) => {
     const milliseconds = Date.parse(date);
@@ -45,37 +46,53 @@ function RenderComments({ comments }) {
             <p>-- {comment.author}, {parseDate(comment.date).month} {parseDate(comment.date).day}, {parseDate(comment.date).year}</p>
           </div>
         ))}
-        <CommentForm />
+        <CommentForm dishId={dishId} />
       </div>
     );
   else
     return (
       <div>
-        <CommentForm />
+        <CommentForm dishId={dishId} />
       </div>
     );
 }
 
-function DishDetail({ dish, comments }) {
-
-  return (
-    <div className="container">
-      <div className="row">
-        <Breadcrumb>
-          <BreadcrumbItem><Link to="/menu">Menu</Link></BreadcrumbItem>
-          <BreadcrumbItem active>{dish.name}</BreadcrumbItem>
-        </Breadcrumb>
-        <div className="col-12">
-          <h3>{dish.name}</h3>
-          <hr />
+function DishDetail({ dish, isLoading, errorMessage, comments }) {
+  if (isLoading) {
+    return (
+      <div className="container">
+        <div className="row">
+          <Loading />
         </div>
       </div>
-      <div className="row">
-          <RenderDish dish={dish} />
-          <RenderComments comments={comments} />
+    )
+  } else if (errorMessage) {
+    return (
+      <div className="container">
+        <div className="row">
+          <h4>{errorMessage}</h4>
+        </div>
       </div>
-    </div>
-  );
+    )
+  } else
+    return (
+      <div className="container">
+        <div className="row">
+          <Breadcrumb>
+            <BreadcrumbItem><Link to="/menu">Menu</Link></BreadcrumbItem>
+            <BreadcrumbItem active>{dish.name}</BreadcrumbItem>
+          </Breadcrumb>
+          <div className="col-12">
+            <h3>{dish.name}</h3>
+            <hr />
+          </div>
+        </div>
+        <div className="row">
+          <RenderDish dish={dish} />
+          <RenderComments comments={comments} dishId={dish.id} />
+        </div>
+      </div>
+    );
 }
 
 export default DishDetail;
