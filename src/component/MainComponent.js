@@ -1,4 +1,8 @@
 import React, { useEffect } from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchDishes } from '../redux/ActionCreators'; 
+import { actions } from 'react-redux-form';
 import Home from './HomeComponent';
 import Menu from './MenuComponent';
 import Contact from './ContactComponent';
@@ -6,9 +10,6 @@ import About from './AboutComponent';
 import DishDetail from './DishdetailComponent'; 
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
-import { Switch, Route, Redirect } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { fetchDishes } from '../redux/ActionCreators'; 
 
 function Main() {
 
@@ -57,7 +58,7 @@ function Main() {
         <Route path="/home" component={HomePage}/>
         <Route exact path="/menu" component={() => <Menu dishes={dishes} />}/>
         <Route path="/menu/:dishId" component={DishWithId} />
-        <Route exact path="/contactus" component={Contact} />
+        <Route exact path="/contactus" component={() => <Contact resetFeedbackForm={() => dispatch(actions.reset('feedback'))} />} />
         <Route exact path="/about" component={() => <About leaders={leaders} />} />
         <Redirect to="/home"></Redirect>
       </Switch>
