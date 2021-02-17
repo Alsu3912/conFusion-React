@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, Label, Row, Col } from 'reactstrap';
 import { Control, LocalForm, Errors } from 'react-redux-form';
 import { useDispatch } from 'react-redux';
-import { addComment } from '../redux/ActionCreators';
+import { postComment } from '../redux/ActionCreators';
 
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
 const minLength = (len) => (val) => (val) && (val.length >= len);
@@ -19,7 +19,7 @@ const CommentForm = ({ dishId }) => {
 
   const handleSubmit = (values) => {
     toggleModal();
-    dispatch(addComment(dishId, values.rating, values.name, values.message));
+    dispatch(postComment(dishId, values.rating, values.name, values.message));
   }
 
   return (
