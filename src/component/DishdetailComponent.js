@@ -90,7 +90,7 @@ function DishDetail({ dish, isLoading, errorMessage, comments, commentsErrorMess
         </div>
         <div className="row">
           <RenderDish dish={dish} />
-          <RenderComments comments={comments} dishId={dish.id} />
+          {commentsErrorMessage !== null ? <h4>{commentsErrorMessage}</h4> : <RenderComments comments={comments} dishId={dish.id} />}
         </div>
       </div>
     );
