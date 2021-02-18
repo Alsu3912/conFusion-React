@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { actions } from 'react-redux-form';
 import Home from './HomeComponent';
@@ -10,6 +10,7 @@ import DishDetail from './DishdetailComponent';
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
 import { fetchDishes, fetchComments, fetchPromos } from '../redux/ActionCreators';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 function Main() {
 
@@ -56,17 +57,25 @@ function Main() {
     )
   }
 
+  const AnimatedSwitch = withRouter(({ location }) => (
+    <TransitionGroup>
+      <CSSTransition key={location.key} classNames="page" timeout={300} >
+        <Switch location={location}>
+          <Route path="/home" component={HomePage} />
+          <Route exact path="/menu" component={() => <Menu dishes={dishes} />} />
+          <Route path="/menu/:dishId" component={DishWithId} />
+          <Route exact path="/contactus" component={() => <Contact resetFeedbackForm={() => dispatch(actions.reset('feedback'))} />} />
+          <Route exact path="/about" component={() => <About leaders={leaders} />} />
+          <Redirect to="/home"></Redirect>
+        </Switch>
+      </CSSTransition>
+    </TransitionGroup>
+  ));
+
   return (
     <div>
       <Header />
-      <Switch>
-        <Route path="/home" component={HomePage} />
-        <Route exact path="/menu" component={() => <Menu dishes={dishes} />} />
-        <Route path="/menu/:dishId" component={DishWithId} />
-        <Route exact path="/contactus" component={() => <Contact resetFeedbackForm={() => dispatch(actions.reset('feedback'))} />} />
-        <Route exact path="/about" component={() => <About leaders={leaders} />} />
-        <Redirect to="/home"></Redirect>
-      </Switch>
+      <AnimatedSwitch />
       <Footer />
     </div>
   );
