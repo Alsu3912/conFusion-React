@@ -17,6 +17,7 @@ import {
   ModalBody
 } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
+import { baseUrl } from '../shared/baseUrl';
 
 const Header = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -45,7 +46,7 @@ const Header = () => {
         <div className="container">
           <NavbarToggler onClick={toggleNav}></NavbarToggler>
           <NavbarBrand className="mr-auto" href="/">
-            <img src="images/logo.png" alt="Ristorante Con Fusion" height="30" width='41' />
+            <img src={baseUrl + "images/logo.png"} alt="Ristorante Con Fusion" height="30" width='41' />
           </NavbarBrand>
           <Collapse isOpen={isNavOpen} navbar>
             <Nav navbar>
