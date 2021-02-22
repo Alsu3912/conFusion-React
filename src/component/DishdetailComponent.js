@@ -48,9 +48,9 @@ function RenderComments({ comments, dishId }) {
       <div className="col-12 col-md-5 m-1">
         <h4>Comments</h4>
         <ul className="list-unstyled">
-          <Stagger in key={comments.length}>
+          <Stagger in>
             {comments.map((comment) => (
-              <Fade in>
+              <Fade in key={comment.id}>
                 <li key={comment.id}>
                   <p>{comment.comment}</p>
                   <p>-- {comment.author}, {parseDate(comment.date).month} {parseDate(comment.date).day}, {parseDate(comment.date).year}</p>

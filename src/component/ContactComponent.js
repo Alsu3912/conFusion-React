@@ -11,6 +11,8 @@ import {
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { Control, Form, Errors } from 'react-redux-form';
+import { useDispatch } from 'react-redux';
+import { postFeedback } from '../redux/ActionCreators';
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
@@ -20,9 +22,11 @@ const validEmail = (val) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val
 
 const Contact = ({ resetFeedbackForm }) => {
 
+  const dispatch = useDispatch();
+
   const handleSubmit = (values) => {
     console.log("Current state is: " + JSON.stringify(values));
-    alert("Current state is: " + JSON.stringify(values));
+    dispatch(postFeedback(values.firstname, values.lastname, values.telnum, values.email, values.agree, values.contactType, values.message));
     resetFeedbackForm();
   }
 
@@ -127,7 +131,7 @@ const Contact = ({ resetFeedbackForm }) => {
                     model=".telnum"
                     show="touched"
                     messages={{
-                      required: 'Required ' ,
+                      required: 'Required ',
                       minLength: 'Must be greater than 2 numbers ',
                       maxLength: 'Must be 15 numbers or less ',
                       isNumber: 'Must be a number'
@@ -139,12 +143,12 @@ const Contact = ({ resetFeedbackForm }) => {
                 <Label htmlFor="email" md={2}>Email</Label>
                 <Col md={10}>
                   <Control.text model=".email" id="email" name="email" placeholder="Email"
-                    className="form-control" 
+                    className="form-control"
                     validators={{
                       required, validEmail
-                    }} 
-                    />
-                    <Errors
+                    }}
+                  />
+                  <Errors
                     className="text-danger"
                     model=".email"
                     show="touched"

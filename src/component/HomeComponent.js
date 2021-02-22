@@ -38,7 +38,9 @@ const Home = (props) => {
     promotion,
     promosLoading,
     promosErrorMessage,
-    leader
+    leader,
+    leadersLoading,
+    leadersErrorMessage
   } = props;
   return (
     <div className="container">
@@ -54,7 +56,9 @@ const Home = (props) => {
             errorMessage={promosErrorMessage} />
         </div>
         <div className="col-12 col-md m-1">
-          <RenderCard item={leader} />
+          <RenderCard item={leader}
+            loading={leadersLoading}
+            errorMessage={leadersErrorMessage} />
         </div>
       </div>
     </div>

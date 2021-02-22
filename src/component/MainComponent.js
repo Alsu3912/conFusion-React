@@ -9,7 +9,7 @@ import About from './AboutComponent';
 import DishDetail from './DishdetailComponent';
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
-import { fetchDishes, fetchComments, fetchPromos } from '../redux/ActionCreators';
+import { fetchDishes, fetchComments, fetchPromos, fetchLeaders } from '../redux/ActionCreators';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 function Main() {
@@ -24,6 +24,7 @@ function Main() {
   useEffect(() => dispatch(fetchDishes()), [dispatch]);
   useEffect(() => dispatch(fetchComments()), [dispatch]);
   useEffect(() => dispatch(fetchPromos()), [dispatch]);
+  useEffect(() => dispatch(fetchLeaders()), [dispatch]);
 
   const filterByDishID = (match, entryForFilter, id) => {
     const filteredArray = entryForFilter.filter((elem) => elem[id] === parseInt(match.params.dishId, 10));
@@ -43,7 +44,9 @@ function Main() {
         promotion={filterByFeaturedAttribute(promotions.promotions)}
         promosLoading={promotions.isLoading}
         promosErrorMessage={promotions.errorMessage}
-        leader={filterByFeaturedAttribute(leaders)} />
+        leader={filterByFeaturedAttribute(leaders.leaders)} 
+        leadersLoading={leaders.isLoading}
+        leadersErrorMessage={leaders.errorMessage} />
     )
   }
 
