@@ -1,22 +1,45 @@
 import React from 'react';
 import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, Media } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import Loading from './LoadingComponent';
+import { baseUrl } from '../shared/baseUrl';
+import { Fade, Stagger } from 'react-animation-components';
 
 const RenderLeader = ({ leaders }) => {
-  return (
+  if (leaders.isLoading) {
+    return (
+      <div className="container">
+        <div className="row">
+          <Loading />
+        </div>
+      </div>
+    )
+  } else if (leaders.errorMessage) {
+    return (
+      <div className="container">
+        <div className="row">
+          <h4>{leaders.errorMessage}</h4>
+        </div>
+      </div>
+    )
+  } else return (
     <Media list>
-      {leaders.map((leader) => (
-        <Media tag="li" key={leader.id} >
-          <Media left href="#" className="m-3">
-            <Media object src={leader.image} alt={leader.name} />
-          </Media>
-          <Media body className="m-3">
-            <Media heading>{leader.name}</Media>
-            <p>{leader.designation}</p>
-            {leader.description}
-          </Media>
-        </Media>
-      ))}
+      <Stagger in>
+        {leaders.leaders.map((leader) => (
+          <Fade in key={leader.id}>
+            <Media tag="li" key={leader.id} >
+              <Media left href="#" className="m-3">
+                <Media object src={baseUrl + leader.image} alt={leader.name} />
+              </Media>
+              <Media body className="m-3">
+                <Media heading>{leader.name}</Media>
+                <p>{leader.designation}</p>
+                {leader.description}
+              </Media>
+            </Media>
+          </Fade>
+        ))}
+      </Stagger>
     </Media>
   )
 }
@@ -63,10 +86,9 @@ const About = ({ leaders }) => {
             <CardBody className="bg-faded">
               <blockquote className="blockquote">
                 <p className="mb-0">You better cut the pizza in four pieces because
-                                    I'm not hungry enough to eat six.</p>
+                  I'm not hungry enough to eat six.</p>
                 <footer className="blockquote-footer">Yogi Berra,
-                                <cite title="Source Title">The Wit and Wisdom of Yogi Berra,
-                                    P. Pepe, Diversion Books, 2014</cite>
+                <cite title="Source Title">The Wit and Wisdom of Yogi Berra, P. Pepe, Diversion Books, 2014</cite>
                 </footer>
               </blockquote>
             </CardBody>
@@ -79,11 +101,10 @@ const About = ({ leaders }) => {
         </div>
         <div className="col-12">
           <Media>
-          <RenderLeader leaders={leaders} />
+            <RenderLeader leaders={leaders} />
           </Media>
-          
         </div>
-      </div>
+      </div >
     </div >
   );
 }

@@ -18,11 +18,10 @@ const minLength = (len) => (val) => (val) && (val.length >= len);
 const isNumber = (val) => !isNaN(Number(val));
 const validEmail = (val) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val);
 
-const Contact = ({ resetFeedbackForm }) => {
+const Contact = ({ resetFeedbackForm, postFeedback }) => {
 
   const handleSubmit = (values) => {
-    console.log("Current state is: " + JSON.stringify(values));
-    alert("Current state is: " + JSON.stringify(values));
+    postFeedback(values.firstname, values.lastname, values.telnum, values.email, values.agree, values.contactType, values.message);
     resetFeedbackForm();
   }
 
@@ -127,7 +126,7 @@ const Contact = ({ resetFeedbackForm }) => {
                     model=".telnum"
                     show="touched"
                     messages={{
-                      required: 'Required ' ,
+                      required: 'Required ',
                       minLength: 'Must be greater than 2 numbers ',
                       maxLength: 'Must be 15 numbers or less ',
                       isNumber: 'Must be a number'
@@ -139,12 +138,12 @@ const Contact = ({ resetFeedbackForm }) => {
                 <Label htmlFor="email" md={2}>Email</Label>
                 <Col md={10}>
                   <Control.text model=".email" id="email" name="email" placeholder="Email"
-                    className="form-control" 
+                    className="form-control"
                     validators={{
                       required, validEmail
-                    }} 
-                    />
-                    <Errors
+                    }}
+                  />
+                  <Errors
                     className="text-danger"
                     model=".email"
                     show="touched"
