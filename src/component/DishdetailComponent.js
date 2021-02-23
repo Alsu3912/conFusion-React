@@ -33,7 +33,7 @@ function RenderDish({ dish }) {
     );
 }
 
-function RenderComments({ comments, dishId }) {
+function RenderComments({ comments, dishId, postComment }) {
 
   const parseDate = (date) => {
     const milliseconds = Date.parse(date);
@@ -59,18 +59,18 @@ function RenderComments({ comments, dishId }) {
             ))}
           </Stagger>
         </ul>
-        <CommentForm dishId={dishId} />
+        <CommentForm dishId={dishId} postComment={postComment} />
       </div>
     );
   else
     return (
       <div>
-        <CommentForm dishId={dishId} />
+        <CommentForm dishId={dishId} postComment={postComment} />
       </div>
     );
 }
 
-function DishDetail({ dish, isLoading, errorMessage, comments, commentsErrorMessage }) {
+function DishDetail({ dish, isLoading, errorMessage, comments, commentsErrorMessage, postComment }) {
   if (isLoading) {
     return (
       <div className="container">
@@ -102,7 +102,7 @@ function DishDetail({ dish, isLoading, errorMessage, comments, commentsErrorMess
         </div>
         <div className="row">
           <RenderDish dish={dish} />
-          {commentsErrorMessage !== null ? <h4>{commentsErrorMessage}</h4> : <RenderComments comments={comments} dishId={dish.id} />}
+          {commentsErrorMessage !== null ? <h4>{commentsErrorMessage}</h4> : <RenderComments comments={comments} dishId={dish.id} postComment={postComment}/>}
         </div>
       </div>
     );

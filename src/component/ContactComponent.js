@@ -11,8 +11,6 @@ import {
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { Control, Form, Errors } from 'react-redux-form';
-import { useDispatch } from 'react-redux';
-import { postFeedback } from '../redux/ActionCreators';
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
@@ -20,13 +18,10 @@ const minLength = (len) => (val) => (val) && (val.length >= len);
 const isNumber = (val) => !isNaN(Number(val));
 const validEmail = (val) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val);
 
-const Contact = ({ resetFeedbackForm }) => {
-
-  const dispatch = useDispatch();
+const Contact = ({ resetFeedbackForm, postFeedback }) => {
 
   const handleSubmit = (values) => {
-    console.log("Current state is: " + JSON.stringify(values));
-    dispatch(postFeedback(values.firstname, values.lastname, values.telnum, values.email, values.agree, values.contactType, values.message));
+    postFeedback(values.firstname, values.lastname, values.telnum, values.email, values.agree, values.contactType, values.message);
     resetFeedbackForm();
   }
 

@@ -94,7 +94,11 @@ export const postFeedback = (
         throw errorMessage;
       })
     .then(response => response.json())
-    .then(response => dispatch(addFeedback(response)))
+    .then(response => {
+      alert('Thank you for your feedback!\n' + JSON.stringify(response));
+      console.log(response);
+      return dispatch(addFeedback(response));
+    })
     .catch(error => {
       console.log('Post comments ', error.message);
       alert('Your comment could not be post.\nError: ' + error.message);
@@ -233,9 +237,9 @@ export const leadersLoading = () => ({
 export const leadersFailed = (errorMessage) => ({
   type: ActionTypes.LEADERS_FAILED,
   payload: errorMessage
-})
+});
 
 export const addLeaders = (leaders) => ({
   type: ActionTypes.ADD_LEADERS,
   payload: leaders
-})
+});
